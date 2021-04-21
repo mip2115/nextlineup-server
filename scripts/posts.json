@@ -1,0 +1,103 @@
+[
+    {
+        "dateCreated":"1609699762",
+        "dateUpdated":"1609699762",
+        "userUid":"5ff2104a3dac6b57bc03ac89",
+        "_id":"5ff2104a3dac6b57bc03ac02",
+        "title":"Super cool song with heavey bass",
+        "linkToMedia":"some link",
+        "awsKey":"some-key",
+        "upvotes":0
+    },
+    {
+        "dateCreated":"1609700142",
+        "dateUpdated":"1609700142",
+        "userUid":"5ff2104a3dac6b57bc03ac89",
+        "_id":"5ff2104a3dac6b57bc03ac1z",
+        "title":"New song cool chord progression",
+        "linkToMedia":"some link",
+        "awsKey":"some-key",
+        "upvotes":21
+    },
+    {
+        "dateCreated":"1609699762",
+        "dateUpdated":"1609699762",
+        "userUid":"5ff2104a3dac6b57bc03ac8a",
+        "_id":"5ff2104a3dac6b57bc03acab",
+        "title":"Tried to make something in logic",
+        "linkToMedia":"some link",
+        "awsKey":"some-key",
+        "upvotes":40
+
+    },
+    {
+        "dateCreated":"1609700142",
+        "dateUpdated":"1609700142",
+        "userUid":"5ff2104a3dac6b57bc03ac8a",
+        "_id":"5ff2104a3dac6b57bc03acbv",
+        "title":"New remix with of ZebraHorseClown",
+        "linkToMedia":"some link",
+        "awsKey":"some-key",
+        "upvotes":10
+    },
+    {
+        "dateCreated":"1609700315",
+        "dateUpdated":"1609700315",
+        "userUid":"5ff2104a3dac6b57bc03ac8b",
+        "_id":"5ff2104a3dac6b57bc03aca6",
+        "title":"New type of bass for edm",
+        "linkToMedia":"some link",
+        "awsKey":"some-key",
+        "upvotes":30
+    },
+    {
+        "dateCreated":"1609700324",
+        "dateUpdated":"1609700324",
+        "userUid":"5ff2104a3dac6b57bc03ac8b",
+        "_id":"5ff2104a3dac6b57bc03acb5",
+        "title":"Should this be faster?",
+        "linkToMedia":"some link",
+        "awsKey":"some-key",
+        "upvotes":32
+    },
+    {
+        "dateCreated":"1609701000",
+        "dateUpdated":"1609701000",
+        "userUid":"5ff2104a3dac6b57bc03ac89",
+        "_id":"5ff2104a3dac6b57bc035b02",
+        "title":"Super cool song with heavey bass",
+        "linkToMedia":"some link",
+        "awsKey":"some-key",
+        "upvotes":49
+    },
+    {
+        "dateCreated":"1609700990",
+        "dateUpdated":"1609700990",
+        "userUid":"5ff2104a3dac6b57bc03ac89",
+        "_id":"5ff2104a3dac6b57bcf3ac1z",
+        "title":"New song cool chord progression",
+        "linkToMedia":"some link",
+        "awsKey":"some-key",
+        "upvotes":42
+    },
+    {
+        "dateCreated":"1609996659",
+        "dateUpdated":"1609996659",
+        "userUid":"5ff2104a3dac6b57bc03ac89",
+        "_id":"5ff2104a3dac6b57bc03af02",
+        "title":"Quick song made with cool stuff",
+        "linkToMedia":"some link",
+        "awsKey":"some-key",
+        "upvotes":40
+    },
+    {
+        "dateCreated":"1609996719",
+        "dateUpdated":"1609996719",
+        "userUid":"5ff2104a3dac6b57bc03ac89",
+        "_id":"5ff2104a3dacan57bcf3ac1z",
+        "title":"Does this sidehchain sound ok?",
+        "linkToMedia":"some link",
+        "awsKey":"some-key",
+        "upvotes":92
+    }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "_id":"5ff2104a3dac6b57bc03ac89",
+    "email": "testuser1@gmail.com",
+    "password": "password",
+    "username": "skyrocket-1"
+  },
+  {
+    "_id":"5ff2104a3dac6b57bc03ac8a",
+    "email": "testuser2@gmail.com",
+    "password": "password-dev",
+    "username": "living-remembrance-1"
+  },
+  {
+    "_id":"5ff2104a3dac6b57bc03ac8b",
+    "email": "testuser3@gmail.com",
+    "password": "password-dev",
+    "username": "crow-blood-1"
+  },
+  {
+    "_id":"5ff2104a3dac6b57bc03ac8c",
+    "email": "testuser4@gmail.com",
+    "password": "password-dev",
+    "username": "bird-song-1"
+  },
+  {
+    "_id":"5ff2104a3dac6b57bc03ac8d",
+    "email": "testuser5@gmail.com",
+    "password": "password-dev",
+    "username": "sky-fall-1"
+  }
+]
