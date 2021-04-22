@@ -58,17 +58,17 @@ const getPostByUuid = async (postUuid: string): Promise<PostEntity> => {
 const createPost = async (post: CreatePostParams): Promise<PostEntity> => {
   try {
     let buff = new Buffer(post.fileAsBase64, "base64");
-    const audioUuid = uuidv4();
-    const key = `public/${post.userUuid}/${audioUuid}.mp3`; // need an extension
-    const s3AudioParams = {
+    const newUuid = uuidv4();
+    const key = `public/${post.userUuid}/${newUuid}.mp3`; // need an extension
+    const s3ImageParams = {
       file: buff,
       key: key,
     };
-    const uploadedAudio = await AwsController.uploadAudioToS3(s3AudioParams);
+    const uploadedImag = await AwsController.uploadAImageToS3(s3ImageParams);
     const newPostParams = {
       title: post.title,
-      storageKey: uploadedAudio.storageKey,
-      linkToMedia: uploadedAudio.linkToMedia,
+      storageKey: uploadedImag.storageKey,
+      linkToMedia: uploadedImag.linkToMedia,
       userUuid: post.userUuid,
       uuid: uuidv4(),
     };

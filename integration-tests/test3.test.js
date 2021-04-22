@@ -108,7 +108,7 @@ describe("create user", () => {
       );
       expect(response.data.user.email).toEqual(body.email);
 
-      const filePath = path.join(__dirname, "audio_base_64.txt");
+      const filePath = path.join(__dirname, "video_base_64.txt");
       const fileAsBase64 = fs.readFileSync(filePath, "utf8");
       body = {
         userUuid: response.data.user.uuid,
