@@ -1,8 +1,42 @@
 import mongoose from "mongoose";
+import mysql from "mysql2/promise";
+
 import UserSchema from "../../schemas/user";
 import PostSchema from "../../schemas/post";
 import ThoughtSchema from "../../schemas/thought";
 import UpvoteSchema from "../../schemas/upvote";
+
+export interface DatabaseConnection {
+  connection: mysql.Connection;
+}
+
+const dbConnection = <DatabaseConnection>{};
+
+const getMySQLConnection = async () => {
+  return dbConnection;
+};
+
+const connectToMySQLDB = async () => {
+  try {
+    // create the connection to database
+    const connection = await mysql.createConnection({
+      host: "localhost",
+      user: "user",
+      database: "nextlineup",
+      password: "user",
+    });
+    console.log("connected to mysql");
+    dbConnection.connection = connection;
+
+    // const [results, fields] = await connection.query("SELECT * FROM t1;");
+    // console.log("ROWS", results);
+    // const values = Object.values(results);
+    // console.log(values[0].name);
+  } catch (e) {
+    console.log("error");
+    console.log(e);
+  }
+};
 
 const connectToDb = async () => {
   try {
@@ -47,4 +81,6 @@ export default {
   getDbConnection,
   dropAllCollections,
   closeDb,
+  connectToMySQLDB,
+  getMySQLConnection,
 };

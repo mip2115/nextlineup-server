@@ -1,5 +1,7 @@
-import UserRepo from "../../schemas/user/repo";
+// import UserRepo from "../../schemas/user/repo";
+import UserRepo from "../../repo/users";
 import bcrypt from "bcrypt";
+import { getGoogleAuthURL } from "./google";
 import {
   CreateUserParams,
   LoginUserParams,
@@ -34,21 +36,40 @@ const validateCreateUserParams = (params: CreateUserParams): boolean => {
   return true;
 };
 
-const signupUser = async (params: CreateUserParams): Promise<typeof User> => {
+const createOathUser = async (params: any): Promise<any> => {
   try {
-    validateCreateUserParams(params);
+    const newUserParams: any = {
+      email: params.email,
+      uuid: uuidv4(),
+      oath: params.oath,
+    };
+    const newUser = await UserRepo.createUser(newUserParams);
+    return newUser;
+  } catch (e) {
+    throw e;
+  }
+};
+
+const createUser = async (params: any): Promise<typeof User> => {
+  try {
+    // const url = getGoogleAuthURL();
+    // console.log("URL IS");
+    // console.log(url);
+    // validateCreateUserParams(params);
+    // you want to do something like params.oath
     const { email, password } = params;
     const existingUser = await UserRepo.getUserByEmail(email);
     if (existingUser) {
       throw new Error("email already exists");
     }
-
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const newUserParams = {
+    const newUserParams: any = {
       email: email,
-      password: hashedPassword,
       uuid: uuidv4(),
+      hashedPassword = await bcrypt.hash(password, saltRounds),
     };
+    if (newUserParams.mobile !== null) {
+      newUserParams.mobile = params.mobile;
+    }
     const newUser = await UserRepo.createUser(newUserParams);
     return newUser;
   } catch (e) {
@@ -59,11 +80,18 @@ const signupUser = async (params: CreateUserParams): Promise<typeof User> => {
 const loginUser = async (params: LoginUserParams): Promise<any> => {
   try {
     const { email, password } = params;
+    const user = await UserRepo.getUserByEmail(email);
+    if (user === null) {
+      throw new Error("could not find user");
+    }
+    if (password === null && user.oauth === null) {
+      throw new Error("password is needed for non-auth user");
+    }
     const match = await UserRepo.checkUserPassword(email, password);
     if (!match) {
       throw new Error("invalid password");
     }
-    const user = await UserRepo.getUserByEmail(email);
+
     return user;
   } catch (e) {
     throw e;
@@ -72,5 +100,6 @@ const loginUser = async (params: LoginUserParams): Promise<any> => {
 
 export default {
   loginUser,
-  signupUser,
+  createUser,
+  createOathUser,
 };

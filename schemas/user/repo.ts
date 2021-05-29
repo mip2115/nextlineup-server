@@ -4,17 +4,18 @@ import { v4 as uuidv4 } from "uuid";
 import { UserEntity } from "../../types/user";
 import bcrypt from "bcrypt";
 
-const fromRepoUserToEntityUser = (user: any): UserEntity => {
-  const userEntity: UserEntity = {
-    email: user.email,
-    uuid: user.uuid,
-    mobile: user.mobile,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
-    username: user.deletedAt,
-    deletedAt: user.deletedAt,
-  };
-  return userEntity;
+const fromRepoUserToEntityUser = (user: any): any => {
+  // const userEntity: UserEntity = {
+  //   email: user.email,
+  //   uuid: user.uuid,
+  //   mobile: user.mobile,
+  //   createdAt: user.createdAt,
+  //   updatedAt: user.updatedAt,
+  //   username: user.deletedAt,
+  //   deletedAt: user.deletedAt,
+  // };
+  // return userEntity;
+  return {};
 };
 
 const checkUserPassword = async (

@@ -16,6 +16,11 @@ const validateUpdateUserParams = (params: any): any => {
   return params;
 };
 
+const getUserByEmail = async (email: string): Promise<any> => {
+  const existingUser = await UserRepo.getUserByEmail(email);
+  return existingUser;
+};
+
 const updateUser = async (params: any): Promise<any> => {
   try {
     const user = await UserRepo.updateUser(params);
@@ -36,4 +41,5 @@ const deleteUser = async (params: any): Promise<any> => {
 
 export default {
   getUserByUuid,
+  getUserByEmail,
 };
