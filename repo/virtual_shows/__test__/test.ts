@@ -1,4 +1,4 @@
-import BookingRepo from "../";
+import VirtualShowRepo from "../";
 import DBInstance from "../../../utils/database";
 
 describe("show repo suite", () => {
@@ -21,17 +21,17 @@ describe("show repo suite", () => {
     }
   });
   it("create a show from repo", async () => {
-    const bookingRepo = new BookingRepo();
-    const createBookingParams = {
-      uuid: "some-booking-uuid",
-      userUuid: "some-user-uuid",
-      showUuid: "some-show-uuid",
+    const showRepo = new VirtualShowRepo();
+    const createShowParams = {
+      uuid: "some-show-uuid",
+      startTime: new Date(),
+      endTime: new Date(),
+      linkToMedia: "some-link",
+      maxPerformers: 6,
     };
-    await bookingRepo.createBooking(createBookingParams);
-    const booking = await bookingRepo.getBookingByUuid(
-      createBookingParams.uuid
-    );
-    expect(booking!.uuid).toEqual(createBookingParams.uuid);
+    await showRepo.createShow(createShowParams);
+    const show = await showRepo.getShowByUuid(createShowParams.uuid);
+    expect(show!.uuid).toEqual(createShowParams.uuid);
   });
 });
 // it("some-test", () => console.log("RAN"));

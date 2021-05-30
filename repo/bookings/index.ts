@@ -1,55 +1,42 @@
-import dbUtils from "../../utils/db";
-import { CreateBookingParams } from "../../types/booking";
+import { CreateBookingParams, BookingRecord } from "../../types/booking";
+import DatabaseConnection from "../../utils/database";
 
-const getBookingsByUserUuid = async (uuid: string): Promise<any> => {
-  try {
-    const db = await dbUtils.getMySQLConnection();
-    const query = `
-      SELECT * from booking where userUuid = ?
-    `;
+class BookingRepo {
+  public dbConnection: DatabaseConnection;
 
-    const [results, _] = await db.connection.query(query, [uuid]);
-    const values = Object.values(results);
-    return values;
-  } catch (e) {
-    throw e;
+  constructor() {
+    this.dbConnection = DatabaseConnection.getInstance();
   }
-};
 
-const createBooking = async (params: CreateBookingParams): Promise<any> => {
-  try {
-    const db = await dbUtils.getMySQLConnection();
-    const query = `insert into booking (
-          uuid
-          showUuid,
-          userUuid,
-        ) VALUES(?, ?, ?)`;
-    const [results, _] = await db.connection.query(query, [
-      params.uuid,
-      params.showUuid,
-      params.userUuid,
-    ]);
-    return true;
-  } catch (e) {
-    throw e;
-  }
-};
+  createBooking = async (params: CreateBookingParams) => {
+    try {
+      const conn = await this.dbConnection.getDBConnection();
+      const query = `
+        insert into booking (
+          uuid, showUuid,  userUuid
+        ) values(?, ?, ?)
+      `;
+      await conn.query(query, [params.uuid, params.showUuid, params.userUuid]);
+    } catch (e) {
+      throw e;
+    }
+  };
 
-const deleteBooking = async (
-  userUuid: string,
-  showUuid: string
-): Promise<any> => {
-  try {
-    const db = await dbUtils.getMySQLConnection();
-    const query = `delete from booking where userUuid = ? and showUuid = ?;`;
-    const [results, _] = await db.connection.query(query, [userUuid, showUuid]);
-    return true;
-  } catch (e) {
-    throw e;
-  }
-};
+  deleteBooking = async () => {};
 
-export default {
-  getBookingsByUserUuid,
-  createBooking,
-};
+  getBookingByUuid = async (uuid: string): Promise<BookingRecord> => {
+    try {
+      const conn = await this.dbConnection.getDBConnection();
+      const query = `
+      select * from booking where uuid = ?
+      `;
+      const [results, _] = await conn.query(query, [uuid]);
+      const values: Array<BookingRecord> = Object.values(results);
+      return values[0];
+    } catch (e) {
+      throw e;
+    }
+  };
+}
+
+export default BookingRepo;

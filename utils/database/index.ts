@@ -22,11 +22,21 @@ class Database {
   clearAllDbRecords = async () => {
     try {
       const c = await this.getDBConnection();
-      const query = `
+      var query = `
         delete from
         user;
       `;
       await c.query(query);
+      const query2 = `
+        delete from
+        virtual_show;
+      `;
+      await c.query(query2);
+      //const query3 = `
+      //   delete from
+      //   booking;
+      // `;
+      // await c.query(query3);
     } catch (e) {
       throw e;
     }

@@ -34,9 +34,8 @@ describe("user repo suite", () => {
     expect(foundUser!.email).toEqual(createUserParams.email);
     foundUser = await userRepo.getUserByUuid(createUserParams.uuid);
     expect(foundUser!.uuid).toEqual(createUserParams.uuid);
-    // } catch (e) {
-    //   console.log(e);
-    // }
   });
   // it("some-test", () => console.log("hi"));
 });
+
+// it("some-test", () => console.log("RAN"));

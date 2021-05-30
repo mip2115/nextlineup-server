@@ -72,7 +72,9 @@ class UserRepo {
       if (values.length == 0) {
         return null;
       }
-      return values[0];
+      const userToReturn = values[0];
+      delete userToReturn["hashedPassword"];
+      return userToReturn;
     } catch (e) {
       throw e;
     }
