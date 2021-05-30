@@ -37,6 +37,24 @@ class BookingRepo {
       throw e;
     }
   };
+
+  getBookingsByUserUUID = async (userUuid: string) => {
+    try {
+      const conn = await this.dbConnection.getDBConnection();
+      const query = `
+      select
+        *
+      from
+        booking b
+      inner join user u on u.uuid = b.userUuid and u.uuid = ?
+      `;
+      const [results, _] = await conn.query(query, [userUuid]);
+      const values: Array<BookingRecord> = Object.values(results);
+      return values;
+    } catch (e) {
+      throw e;
+    }
+  };
 }
 
 export default BookingRepo;

@@ -33,5 +33,22 @@ describe("show repo suite", () => {
     const show = await showRepo.getShowByUuid(createShowParams.uuid);
     expect(show!.uuid).toEqual(createShowParams.uuid);
   });
+  it("get shows by user uuid", async () => {
+    const showRepo = new VirtualShowRepo();
+
+    for (let i = 0; i < 3; i++) {
+      const createShowParams = {
+        uuid: "some-show-uuid" + i,
+        startTime: new Date(),
+        endTime: new Date(),
+        linkToMedia: "some-link",
+        maxPerformers: 6,
+      };
+      await showRepo.createShow(createShowParams);
+    }
+
+    const show = await showRepo.getShowByUuid(createShowParams.uuid);
+    expect(show!.uuid).toEqual(createShowParams.uuid);
+  });
 });
 // it("some-test", () => console.log("RAN"));

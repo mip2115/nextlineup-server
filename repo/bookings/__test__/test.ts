@@ -33,5 +33,24 @@ describe("show repo suite", () => {
     );
     expect(booking!.uuid).toEqual(createBookingParams.uuid);
   });
+  it("get multiple bookings by user", async () => {
+    const bookingRepo = new BookingRepo();
+
+    const userUuid = "some-user-uuid";
+    for (let i = 0; i < 3; i++) {
+      const createBookingParams = {
+        uuid: "some-booking-uuid" + i,
+        showUuid: "some-show-uuid" + i,
+        userUuid: userUuid,
+      };
+      await bookingRepo.createBooking(createBookingParams);
+    }
+
+    const bookings = await bookingRepo.getBookingsByUserUUID(userUuid);
+    for (let i = 0; i < bookings.length; i++) {
+      const booking = bookings[i];
+      expect(booking!.userUuid).toEqual(userUuid);
+    }
+  });
 });
 // it("some-test", () => console.log("RAN"));
