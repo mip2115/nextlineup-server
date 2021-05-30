@@ -2,8 +2,6 @@ import { google } from "googleapis";
 import axios from "axios";
 
 const oauth2Client = new google.auth.OAuth2(
-  "217332712098-en2m4k3cm8pv339e9nllner88rqa12je.apps.googleusercontent.com",
-  "b64YIleLHmLVNPmJkkDGsnJT",
   /*
    * This is where Google will redirect the user after they
    * give permission to your application
