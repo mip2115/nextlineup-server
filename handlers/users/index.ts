@@ -3,89 +3,70 @@ import express from "express";
 import AuthUtils from "../../utils/auth";
 import UserController from "../../controllers/users";
 import AuthController from "../../controllers/auth";
-const router = express.Router();
 
-/*
-connectToMySQLDB,
-getMySQLConnection,
-// */
-// router.get(
-//   "/test-route",
-//   async (req: any, res: any): Promise<any> => {
-//     try {
-//       const db = await dbUtils.getMySQLConnection();
-//
-//       const [results, fields] = await db.connection.query("SELECT * FROM t1;");
-//       console.log("ROWS", results);
-//       const values = Object.values(results);
-//       console.log(values[0].name);
-//
-//       res.json({ success: "succ" });
-//     } catch (e) {
-//       console.log(e);
-//       res.status(400).json({ msg: e.toString() });
-//     }
-//   }
-// );
+class UserHandler {
+  private userController: UserController;
+  private router: express.Router;
+  constructor() {
+    this.userController = new UserController();
+    this.router = express.Router();
+    this.initializeRoutes();
+  }
 
-router.get(
-  "/get-user-by-uuid/:uuid",
-  //  AuthUtils.AuthenticateJWT,
-  async (req: any, res: any): Promise<any> => {
-    const { uuid } = req.params;
+  initializeRoutes = () => {
+    // public routes
+    this.router.get("/get-user-by-uuid/:uuid", this.getUserByUuid);
+    this.router.post("/login-user", this.loginUser);
+    this.router.post("/create-user", this.createUser);
+
+    // private routes
+    this.router.get("/test-auth", AuthUtils.authenticateJWT, this.testAuth);
+  };
+
+  getRoutes = () => {
+    return this.router;
+  };
+
+  getUserByUuid = async (req: any, res: any) => {
     try {
-      const user = await UserController.getUserByUuid(uuid);
+      const { uuid } = req.params;
+      const user = await this.userController.getUserByUuid(uuid);
       res.json({ success: user });
     } catch (e) {
       res.status(400).json({ msg: e.toString() });
     }
-  }
-);
+  };
 
-router.post(
-  "/login-user",
-  async (req: any, res: any): Promise<any> => {
+  testAuth = async (req: any, res: any) => {
     try {
-      const user = await AuthController.loginUser(req.body);
+      res.json({ success: "true" });
+    } catch (e) {
+      res.status(400).json({ msg: e.toString() });
+    }
+  };
+
+  loginUser = async (req: any, res: any) => {
+    try {
+      const user = await this.userController.loginUser(req.body);
       const jwtToken = await AuthUtils.signJwtToken(user.uuid);
       const response = {
-        email: user.email,
-        uuid: user.uuid,
+        user: user,
         token: jwtToken,
       };
       res.json({ user: response });
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.toString() });
     }
-  }
-);
+  };
 
-router.post(
-  "/create-user",
-  async (req: any, res: any): Promise<any> => {
+  createUser = async (req: any, res: any) => {
     try {
-      const user = await AuthController.createUser(req.body);
-      // const jwtToken = await AuthUtils.signJwtToken(user._id);
-      // res.set("authorized-header", jwtToken);
+      const user = await this.userController.createUser(req.body);
       res.json({ user: user });
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.toString() });
     }
-  }
-);
+  };
+}
 
-router.get(
-  "/test-endpoint",
-  AuthUtils.authenticateJWT,
-  (req: any, res: any): any => {
-    try {
-      res.json({ msg: "reached test endpoint" });
-    } catch (e) {
-      res.status(400).json({ err: e.toString() });
-    }
-  }
-);
-
-export default router;
+export default UserHandler;

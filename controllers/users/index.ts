@@ -1,45 +1,69 @@
-// const express = require("express");
-// const router = express.Router();
-import UserRepo from "../../schemas/user/repo";
-import { CreateUserParams } from "../../types/user/";
+import { CreateUserParams, UserRecord } from "../../types/user/";
+import UserRepo from "../../repo/users";
+import { v4 as uuidv4 } from "uuid";
+import bcrypt from "bcrypt";
+const saltRounds = 5;
 
-const getUserByUuid = async (uuid: string): Promise<any> => {
-  try {
-    const user = await UserRepo.getUserByUuid(uuid);
-    return user;
-  } catch (e) {
-    throw new Error(e);
+class UserController {
+  private userRepo: UserRepo;
+
+  constructor() {
+    this.userRepo = new UserRepo();
   }
-};
+  createUser = async (params: any): Promise<UserRecord | null> => {
+    try {
+      // validate the user params.
+      const { email, password } = params;
+      const existingUser = await this.userRepo.getUserByEmail(email);
+      if (existingUser) {
+        throw new Error("user with email already exists");
+      }
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      const newUserParams: any = {
+        email: email,
+        uuid: uuidv4(),
+        hashedPassword: hashedPassword,
+      };
+      if (params.mobile !== null) {
+        newUserParams.mobile = params.mobile;
+      }
+      const user = await this.userRepo.createUser(newUserParams);
+      return user;
+    } catch (e) {
+      throw e;
+    }
+  };
 
-const validateUpdateUserParams = (params: any): any => {
-  return params;
-};
+  loginUser = async (params: any): Promise<UserRecord> => {
+    try {
+      // validate email and password
+      const user = await this.userRepo.checkUserPassword(
+        params.email,
+        params.password
+      );
+      return user;
+    } catch (e) {
+      throw e;
+    }
+  };
 
-const getUserByEmail = async (email: string): Promise<any> => {
-  const existingUser = await UserRepo.getUserByEmail(email);
-  return existingUser;
-};
+  getUserByUuid = async (uuid: string): Promise<UserRecord | null> => {
+    try {
+      const user = await this.userRepo.getUserByUuid(uuid);
+      return user;
+    } catch (e) {
+      throw e;
+    }
+  };
 
-const updateUser = async (params: any): Promise<any> => {
-  try {
-    const user = await UserRepo.updateUser(params);
-    return user;
-  } catch (e) {
-    throw new Error(e);
-  }
-};
+  getUserByEmail = async (email: string): Promise<UserRecord | null> => {
+    try {
+      const userByEmail = await this.userRepo.getUserByEmail(email);
+      return userByEmail;
+    } catch (e) {
+      throw e;
+    }
+  };
+}
 
-const deleteUser = async (params: any): Promise<any> => {
-  try {
-    const user = await UserRepo.deleteUser(params);
-    return user;
-  } catch (e) {
-    throw new Error(e);
-  }
-};
-
-export default {
-  getUserByUuid,
-  getUserByEmail,
-};
+export default UserController;

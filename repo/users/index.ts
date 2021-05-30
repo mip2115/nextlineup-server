@@ -30,13 +30,15 @@ class UserRepo {
         params.uuid,
         params.hashedPassword,
       ]);
-      const values: Array<UserRecord> = Object.values(results);
-      if (values.length == 0) {
-        throw new Error("could not find any user");
+
+      var createdUser: UserRecord;
+      const user = await this.getUserByUuid(params.uuid);
+      if (user === null) {
+        throw new Error("user failed to save");
       }
-      return values[0];
+
+      return user;
     } catch (e) {
-      console.log(e);
       throw e;
     }
   };
@@ -44,7 +46,7 @@ class UserRepo {
   checkUserPassword = async (
     email: string,
     password: string
-  ): Promise<boolean | null> => {
+  ): Promise<UserRecord> => {
     try {
       const user = await this.getUserByEmail(email);
       if (user === null) {
@@ -55,7 +57,11 @@ class UserRepo {
         password,
         user.hashedPassword as string
       );
-      return match;
+      if (!match) {
+        throw new Error("incorrect password");
+      }
+      delete user.hashedPassword;
+      return user;
     } catch (e) {
       throw e;
     }
@@ -74,7 +80,7 @@ class UserRepo {
       }
       const userToReturn = values[0];
       delete userToReturn["hashedPassword"];
-      return userToReturn;
+      return values[0];
     } catch (e) {
       throw e;
     }
